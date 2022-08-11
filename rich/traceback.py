@@ -4,6 +4,7 @@ import os
 import platform
 import re
 import sys
+from pprint import saferepr
 from dataclasses import dataclass, field
 from traceback import walk_tb
 from types import ModuleType, TracebackType
@@ -401,10 +402,10 @@ class Traceback:
             exclude_patterns = patterns if patterns else ()
 
             excluded_variable_name = any(
-                re.search(x, key.__repr__()) for x in exclude_patterns
+                re.search(x, saferepr(key)) for x in exclude_patterns
             )
             excluded_variable_value = any(
-                re.search(x, value.__repr__()) for x in exclude_patterns
+                re.search(x, saferepr(value)) for x in exclude_patterns
             )
 
             if excluded_variable_name or excluded_variable_value:
